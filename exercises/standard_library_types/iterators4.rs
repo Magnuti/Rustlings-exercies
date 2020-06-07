@@ -1,7 +1,5 @@
 // iterators4.rs
 
-// I AM NOT DONE
-
 pub fn factorial(num: u64) -> u64 {
     // Complete this function to return the factorial of num
     // Do not use:
@@ -12,6 +10,16 @@ pub fn factorial(num: u64) -> u64 {
     // For an extra challenge, don't use:
     // - recursion
     // Execute `rustlings hint iterators4` for hints.
+
+    // Fancy syntax, what is (1..=num) ?
+    // https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.product
+    (1..=num).product()
+
+    // Simple recursion
+    // if (num == 1) {
+    //     return 1;
+    // }
+    // num * factorial(num - 1)
 }
 
 #[cfg(test)]
