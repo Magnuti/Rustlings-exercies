@@ -7,13 +7,11 @@
 //         Try to ensure it returns a single string.
 // As always, there are hints if you execute `rustlings hint iterators2`!
 
-// I AM NOT DONE
-
 pub fn capitalize_first(input: &str) -> String {
     let mut c = input.chars();
     match c.next() {
         None => String::new(),
-        Some(first) => first.collect::<String>() + c.as_str(),
+        Some(first) => first.to_uppercase().collect::<String>() + c.as_str(),
     }
 }
 
@@ -25,26 +23,30 @@ mod tests {
     // Tests that verify your `capitalize_first` function implementation
     #[test]
     fn test_success() {
-        assert_eq!(capitalize_first("hello"), "Hello");
+        assert_eq!(capitalize_first("hello"), "Hello"); // We don't need to reference a str
     }
 
     #[test]
     fn test_empty() {
-        assert_eq!(capitalize_first(""), "");
+        assert_eq!(capitalize_first(""), ""); // We don't need to reference a str
     }
 
     // Step 2.
     #[test]
     fn test_iterate_string_vec() {
         let words = vec!["hello", "world"];
-        let capitalized_words: Vec<String> = // TODO
+        let capitalized_words: Vec<String> =
+            vec![capitalize_first(words[0]), capitalize_first(words[1])];
         assert_eq!(capitalized_words, ["Hello", "World"]);
     }
 
     #[test]
     fn test_iterate_into_string() {
         let words = vec!["hello", " ", "world"];
-        let capitalized_words = // TODO
+        let mut capitalized_words: String = String::from("");
+        for word in words {
+            capitalized_words += &capitalize_first(word);
+        }
         assert_eq!(capitalized_words, "Hello World");
     }
 }
