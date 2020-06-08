@@ -7,6 +7,10 @@ struct Person {
     age: usize,
 }
 
+// trait Default {
+//     fn default() -> Person;
+// }
+
 // We implement the Default trait to use it as a fallback
 // when the provided string is not convertible into a Person object
 impl Default for Person {
@@ -18,7 +22,6 @@ impl Default for Person {
     }
 }
 
-// I AM NOT DONE
 // Your task is to complete this implementation
 // in order for the line `let p = Person::from("Mark,20")` to compile
 // Please note that you'll need to parse the age component into a `usize`
@@ -35,6 +38,30 @@ impl Default for Person {
 // Otherwise, then return an instantiated Person object with the results
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
+        if s.len() == 0 {
+            return Person::default();
+        }
+        let strings: Vec<&str> = s.split(',').collect();
+
+        if strings.len() <= 1 {
+            return Person::default();
+        }
+
+        if strings[0] == "" || strings[1] == "" {
+            return Person::default();
+        }
+
+        let name = String::from(strings[0]);
+        let age = strings[1].parse::<usize>();
+
+        let mut person = match age {
+            Ok(_) => Person {
+                name: name,
+                age: age.unwrap(),
+            },
+            Err(_) => Person::default(),
+        };
+        person
     }
 }
 

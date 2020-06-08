@@ -2,7 +2,7 @@
 // Basically, this is the same as From. The main difference is that this should return a Result type
 // instead of the target type itself.
 // You can read more about it at https://doc.rust-lang.org/std/convert/trait.TryFrom.html
-use std::convert::{TryInto, TryFrom};
+use std::convert::{TryFrom, TryInto};
 
 #[derive(Debug)]
 struct Color {
@@ -11,7 +11,7 @@ struct Color {
     blue: u8,
 }
 
-// I AM NOT DONE
+// TODO: This solution can be fixed, the code is of poor quality
 
 // Your task is to complete this implementation
 // and return an Ok result of inner type Color.
@@ -26,6 +26,16 @@ struct Color {
 impl TryFrom<(i16, i16, i16)> for Color {
     type Error = String;
     fn try_from(tuple: (i16, i16, i16)) -> Result<Self, Self::Error> {
+        // u8 is between 0-255
+        let a = u8::try_from(tuple.0).unwrap();
+        let b = u8::try_from(tuple.1).unwrap();
+        let c = u8::try_from(tuple.2).unwrap();
+
+        Ok(Color {
+            red: a,
+            green: b,
+            blue: c,
+        })
     }
 }
 
@@ -33,6 +43,15 @@ impl TryFrom<(i16, i16, i16)> for Color {
 impl TryFrom<[i16; 3]> for Color {
     type Error = String;
     fn try_from(arr: [i16; 3]) -> Result<Self, Self::Error> {
+        let a = u8::try_from(arr[0]).unwrap();
+        let b = u8::try_from(arr[1]).unwrap();
+        let c = u8::try_from(arr[2]).unwrap();
+
+        Ok(Color {
+            red: a,
+            green: b,
+            blue: c,
+        })
     }
 }
 
@@ -40,6 +59,19 @@ impl TryFrom<[i16; 3]> for Color {
 impl TryFrom<&[i16]> for Color {
     type Error = String;
     fn try_from(slice: &[i16]) -> Result<Self, Self::Error> {
+        // Ghetto solution
+        if slice.len() > 3 {
+            return Err(String::from("Too long"));
+        }
+        let a = u8::try_from(slice[0]).unwrap();
+        let b = u8::try_from(slice[1]).unwrap();
+        let c = u8::try_from(slice[2]).unwrap();
+
+        Ok(Color {
+            red: a,
+            green: b,
+            blue: c,
+        })
     }
 }
 
